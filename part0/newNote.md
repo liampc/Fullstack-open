@@ -1,4 +1,4 @@
-Creating new note in SPA
+# Creating new note in SPA
 
 ## browser <- server 
 - get the files from the server
