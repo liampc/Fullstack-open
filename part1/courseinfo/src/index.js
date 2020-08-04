@@ -63,7 +63,7 @@ const App = () => {
     <div>
       <Header name={course.name} />
       <Content part={course.parts.map(n => n.name)} number={course.parts.map(n => n.exercises)} />
-      <Total total={course.parts.map(n => n.exercises)} />
+      <Total total={course.parts.reduce((total,n) => total + n.exercises, 0)} />
     </div>
     
   )
