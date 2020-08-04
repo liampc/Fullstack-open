@@ -1,25 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-// const App = () => {
-//  
-
-//   return (
-//     <div>
-//       <h1>{course}</h1>
-//       <p>
-//         {part1} {exercises1}
-//       </p>
-//       <p>
-//         {part2} {exercises2}
-//       </p>
-//       <p>
-//         {part3} {exercises3}
-//       </p>
-//       <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
-//     </div>
-//   )
-// }
 
 const Header = (props) => {
   return (
@@ -30,11 +11,24 @@ const Header = (props) => {
   )
 }
 
-const Content = (props) => {
+// Todo: make Parts component
+
+const Part = (props) => {
   return (
     <>
       <p>{props.part} : {props.number} exercises</p>
     </>
+  )
+}
+
+const Content = (props) => {
+  
+  return (
+    <div>
+      <Part part={props.part[0]} number={props.number[0]}/>
+      <Part part={props.part[1]} number={props.number[1]}/>
+      <Part part={props.part[2]} number={props.number[2]}/>
+    </div>
   )
 }
 
@@ -58,9 +52,7 @@ const App = () => {
   return (
     <div>
       <Header name={course} />
-      <Content part={part1} number={exercises1} />
-      <Content part={part2} number={exercises2} />
-      <Content part={part3} number={exercises3} />
+      <Content part={[part1,part2, part3]} number={[exercises1,exercises2,exercises3]} />
       <Total total={exercises1 + exercises2 + exercises3} />
     </div>
     
