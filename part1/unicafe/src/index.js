@@ -9,15 +9,37 @@ const Button = ({score, text}) => {
   )
 }
   
-const Numbers = ({text, num, onChange}) => {
+const Numbers = ({text, value}) => {
   return (
   <>
-    <p onChange={onChange}> {text} : {num}</p>
+    <p> {text} : {value}</p>
   </>
   )
 }
  
-
+const Statistics = (props) => {
+  if (props.all === 0){
+    return (
+      <div>
+        <h2>Statistics</h2>
+        <p> No Feedback given</p>
+      </div>
+    )
+  }
+  else if (props.all > 0){
+    return(
+      <div>
+        <h2>Statistics</h2>
+        <Numbers text='Good' value={props.value[0]} />
+        <Numbers text='Bad' value={props.value[1]} />
+        <Numbers text='Neutral' value={props.value[2]} />
+        <Numbers text='All' value={props.value[3]} />
+        <Numbers text='Average' value={props.value[4]} />
+        <Numbers text='Positive' value={props.value[5]} />
+      </div>
+    )
+  }
+}
 
 
 const App = () => {
@@ -37,11 +59,10 @@ const App = () => {
       ...score,
       good: score.good + 1,
       all: score.all + 1,
-      avg: (score.good - score.bad) / score.all,
-      positive: score.good / score.all
+      avg: (((score.good + 1) - score.bad) / score.all),
+      positive: ((score.good  + 1)/ score.all)
       
     })
-    console.log(score.good, score.bad, score.all)
   }
 
   const setBad = () => {
@@ -49,10 +70,10 @@ const App = () => {
       ...score,
       bad: score.bad + 1,
       all: score.all + 1,
-      avg: (score.good - score.bad) / score.all,
-      positive: score.good / score.all
+      avg: ((score.good - (score.bad + 1)) / score.all),
+      positive: (score.good / (score.all + 1))
     })
-    console.log(score.good, score.bad, score.all)
+    
   }
 
   const setNeutral = () => {
@@ -61,7 +82,7 @@ const App = () => {
       neutral: score.neutral + 1,
       all: score.all + 1,
       avg: (score.good - score.bad) / score.all,
-      positive: score.good / score.all
+      positive: (score.good / (score.all + 1))
       
     })
   }
@@ -74,13 +95,7 @@ const App = () => {
       <Button score={setGood} text={'Good'}/>
       <Button score={setBad} text={'Bad'}/>
       <Button score={setNeutral} text={'Neutral'}/>
-      <h2> Statistics</h2>
-      <Numbers text={'Good'} num={score.good} />
-      <Numbers text={'Bad'} num={score.bad} />
-      <Numbers text={'Neutal'} num={score.neutral} />
-      <Numbers text={'All'} num={score.all}/>
-      <Numbers text={'Average'} num={score.avg}/>
-      <Numbers text={'Positive'} num={score.positive} />
+      <Statistics all={score.all} value={[score.good, score.bad, score.neutral, score.all, score.avg, score.positive]} />
     </div>
   )
 }
