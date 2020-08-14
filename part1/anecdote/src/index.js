@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 
-const Anecdote = (props) => {
+const Anecdote = ({title, anecdotes}) => {
     return (
-    <div>{props.anecdotes}</div>
+    <div>
+        <h2>{title}</h2>
+        <div>{anecdotes}</div>
+    </div>
+    
     )
 }
 
@@ -24,27 +28,38 @@ const Votes = ({total}) => {
 const App = (props) => {
     const [selected, setSelected] = useState(0)
     const [vote, setVote] = useState( new Uint8Array(6))
+    const [highest, setHighest] = useState(0)
 
     const clickNext = () => {
         setSelected(
             Math.floor(Math.random() * anecdotes.length)
         )
-        console.log(selected)
     }
 
     const clickVote = () => {
         const copy = [...vote]
         copy[selected] += 1
         setVote(copy)
+
+        const high = copy.indexOf(Math.max(...copy))
+        setHighest(high)
     }
+
+    
 
     return (
         <div>
-            <Anecdote anecdotes={anecdotes[selected]} />
-            <Votes total={vote[selected]} />
-            <Button handleClick={clickNext} text={'next anecdote'}/>
-            <Button handleClick={clickVote} text={'vote'}/>
-            
+            <div>
+                <Anecdote title='Anectode of the day' anecdotes={anecdotes[selected]} />
+                <Votes total={vote[selected]} />
+                <Button handleClick={clickNext} text={'next anecdote'}/>
+                <Button handleClick={clickVote} text={'vote'}/>
+            </div>
+            <div>   
+                <Anecdote title='Anecdote with most votes' anecdotes={anecdotes[highest]} />
+                <Votes total={vote[highest]} />
+            </div>
+           
         </div>
     )
 }
