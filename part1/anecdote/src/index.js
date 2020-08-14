@@ -2,8 +2,28 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 
+const Anecdote = (props) => {
+    return (
+    <div>{props.anecdotes}</div>
+    )
+}
+
+const Button = ({handleClick, text}) => {
+    return (
+    <button onClick={handleClick}>{text}</button>
+    )
+}
+
+const Votes = ({total}) => {
+    return (
+    <p> Has {total} votes</p>
+    )
+}
+
+
 const App = (props) => {
     const [selected, setSelected] = useState(0)
+    const [vote, setVote] = useState( new Uint8Array(6))
 
     const clickNext = () => {
         setSelected(
@@ -12,10 +32,19 @@ const App = (props) => {
         console.log(selected)
     }
 
+    const clickVote = () => {
+        const copy = [...vote]
+        copy[selected] += 1
+        setVote(copy)
+    }
+
     return (
         <div>
-            {props.anecdotes[selected]}
-            <button onClick={clickNext}> next anecdote</button>
+            <Anecdote anecdotes={anecdotes[selected]} />
+            <Votes total={vote[selected]} />
+            <Button handleClick={clickNext} text={'next anecdote'}/>
+            <Button handleClick={clickVote} text={'vote'}/>
+            
         </div>
     )
 }
